@@ -95,7 +95,7 @@ export const useProductsStore = defineStore('products', {
       this.cart = []
     },
 
-    setFilter(filterName: string, value: string|number|number[]) {
+    setFilter(filterName: string, value: string | number | number[]) {
       this.filters[filterName] = value
     },
 

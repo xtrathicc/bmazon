@@ -18,7 +18,7 @@ onMounted(async () => {
 })
 
 const updatePriceFilterValues = async () => {
-  prices.value = store.products.map((e: {price: number}) => e.price)
+  prices.value = store.products.map((e: { price: number }) => e.price)
   priceFilterValue.value = [Math.min(...prices.value), Math.max(...prices.value)]
   store.clearFilter('price')
 }
@@ -41,14 +41,14 @@ const changeRatingFilter = async (rating: number) => {
 
 const applyFilters = async () => {
   interface filterType {
-    [name: string]: never,
+    [name: string]: never
   }
-  const filters: filterType = {};
+  const filters: filterType = {}
   Object.entries(store.filters).forEach((f: [string, never]) => {
-    const [name, value] = f;
-    filters[name] = value;
+    const [name, value] = f
+    filters[name] = value
   })
-  
+
   // check if category is set => always load first
   if (filters.category) {
     const categoryUrl: string = filters.category
@@ -61,16 +61,18 @@ const applyFilters = async () => {
   }
 
   if (filters.price) {
-    const prices: number[] = filters.price;
+    const prices: number[] = filters.price
     const [min, max] = prices
-    console.log(store.products.filter(e => e));
-    
-    store.products = store.products.filter((e: {price: number}) => e.price >= min && e.price <= max)
+    console.log(store.products.filter((e) => e))
+
+    store.products = store.products.filter(
+      (e: { price: number }) => e.price >= min && e.price <= max,
+    )
     priceFilterValue.value = [min, max]
   }
 
   if (filters.rating) {
-    store.products = store.products.filter((e: {rating: number}) => e.rating >= filters.rating)
+    store.products = store.products.filter((e: { rating: number }) => e.rating >= filters.rating)
   }
 
   oldCategory.value = activeCategory.value
@@ -104,10 +106,11 @@ const clearFilters = async () => {
         />
       </el-select>
     </el-container>
-    
+
     <el-container direction="vertical">
       <p>Price</p>
-      <el-slider class="priceFilterSlider"
+      <el-slider
+        class="priceFilterSlider"
         v-model="priceFilterValue"
         range
         :min="isFinite(Math.min(...prices)) ? Math.min(...prices) : 0"
@@ -116,7 +119,6 @@ const clearFilters = async () => {
       />
     </el-container>
 
-    
     <el-container direction="vertical">
       <p>Rating</p>
       <el-rate
