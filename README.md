@@ -12,5 +12,7 @@ npm install
 
 ```sh
 npm run format
+```
+```sh
 npm run dev
 ```
