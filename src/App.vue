@@ -1,27 +1,29 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
 
 import FilterItem from './components/FilterItem.vue'
 
-//const router = useRouter()
 const store = useProductsStore()
-const url = './src/assets/logo.png'
+const logoUrl: string = './src/assets/logo.png'
+const router = useRouter()
 </script>
 
 <template>
   <el-container>
-    <el-header height="80px">
-      <el-container class="header-wrapper">
+    <el-header height="80px" class="w-full fixed top-[0px] bg-bmazon-primary/95 z-10 backdrop-blur">
+      <el-container class="header-wrapper flex items-center justify-between">
         <el-link href="/" :underline="false">
-          <el-image class="logo" style="height: 60px; margin-top: 10px" :src="url" />
+          <el-image class="logo h-[60px] mt-[10px]" :src="logoUrl" />
         </el-link>
         <nav>
-          <el-link href="/">Highlights</el-link>
+          <el-link href="/" class="[&&]:text-bmazon-secondary uppercase mx-2">Highlights</el-link>
           <el-divider direction="vertical" />
-          <el-link href="/products">Products</el-link>
+          <el-link href="/products" class="[&&]:text-bmazon-secondary uppercase mx-2"
+            >Products</el-link
+          >
           <el-divider direction="vertical" />
-          <el-link href="/cart">
+          <el-link href="/cart" class="[&&]:text-bmazon-secondary uppercase mx-2">
             <el-badge :value="store.cart.length" class="item" :show-zero="false" :offset="[12, 2]">
               Cart
             </el-badge>
@@ -31,13 +33,11 @@ const url = './src/assets/logo.png'
     </el-header>
     <el-container>
       <el-aside width="300px">
-        <h2 class="routeNameDisplay">
-          <el-icon :size="size" :color="color">
-            <Menu />
-          </el-icon>
-          {{ this.$route.name }}
-        </h2>
-        <FilterItem v-if="this.$route.name === 'Products'" />
+        <el-container class="m-8 items-center">
+          <el-icon size="20" class="mr-2"><Menu /></el-icon>
+          <h2>{{ router.currentRoute.value.name }}</h2>
+        </el-container>
+        <FilterItem v-if="router.currentRoute.value.name === 'Products'" />
       </el-aside>
       <el-main>
         <RouterView />
@@ -45,27 +45,3 @@ const url = './src/assets/logo.png'
     </el-container>
   </el-container>
 </template>
-
-<style>
-.el-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: rgb(34 43 51 / 95%);
-  z-index: 10;
-  backdrop-filter: blur(15px);
-}
-.header-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-nav .el-link {
-  color: #f4ebe4;
-  margin: 0 10px;
-  text-transform: uppercase;
-}
-.routeNameDisplay {
-  margin: 30px 30px;
-}
-</style>

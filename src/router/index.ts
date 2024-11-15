@@ -30,8 +30,8 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from) => {
-  document.title = `${to.name} | bmazon` ?? 'Default Title'
+router.beforeEach((to) => {
+  document.title = `${String(to.name)} | bmazon`
 })
 
 export default router

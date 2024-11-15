@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useProductsStore } from '@/stores/products'
-import { computed, defineProps } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, defineProps, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 const store = useProductsStore()
 
@@ -12,8 +11,11 @@ const props = defineProps({
   },
 })
 
-const productData = computed(() => {
-  return store.products.find((item) => item.id === props.product.id)
+const num = ref(props.product.amount)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const productData = computed<any>(() => {
+  return store.products.find((item: { id: number }) => item.id === props.product.id)
 })
 
 const updateCart = () => {
@@ -26,18 +28,15 @@ const updateCart = () => {
   })
 }
 
-import { ref } from 'vue'
-
-const num = ref(props.product.amount)
-const handleChange = (value: number) => {
-  console.log(value)
+const getRegex = (str: string) => {
+  return new RegExp('^' + str)
 }
 </script>
 
-<template :set="(regex = new RegExp('^' + productData.brand))">
+<template>
   <el-row :gutter="30" align="center">
-    <el-col :sm="4" :md="6" :lg="6" :xl="8">
-      <el-image :src="productData.thumbnail" style="width: 100%; background: #39424a">
+    <el-col :sm="4" :md="6" :lg="6" :xl="8" class="text-bmazon-secondary mb-1">
+      <el-image :src="productData.thumbnail" class="w-full bg-[#39424a]">
         <template #error>
           <div class="image-slot">
             <el-icon><Picture /></el-icon>
@@ -45,29 +44,19 @@ const handleChange = (value: number) => {
         </template>
       </el-image>
     </el-col>
-    <el-col :sm="20" :md="18" :lg="18" :xl="16">
-      <p class="title">
+    <el-col :sm="20" :md="18" :lg="18" :xl="16" class="text-bmazon-secondary mb-1">
+      <p class="my-1">
         <b class="brand">{{ productData.brand }}</b>
-        {{ productData.title.replace(regex, '').trim() }}
+        {{ productData.title.replace(getRegex(productData.brand), '').trim() }}
       </p>
-      <p class="price"><span class="currency">CHF</span> {{ productData.price }}</p>
-      <el-input-number v-model="num" @change="updateCart()" />
+      <p class="my-1 text-lg font-medium">
+        <span class="text-xs">CHF</span>
+        {{ productData.price * product.amount }}
+        <span v-if="product.amount > 1" class="text-xs text-gray-500"
+          >single price {{ productData.price }}</span
+        >
+      </p>
+      <el-input-number v-model="num" @change="updateCart()" class="my-1" />
     </el-col>
   </el-row>
 </template>
-
-<style>
-.el-col p {
-  color: #f4ebe4;
-  /* margin: 0px 0px 10px 0; */
-}
-p.category {
-  opacity: 0.5;
-  font-size: 10px;
-  text-transform: uppercase;
-  margin-top: 5px;
-}
-span.currency {
-  font-size: 11px;
-}
-</style>

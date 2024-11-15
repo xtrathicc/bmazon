@@ -11,6 +11,11 @@ const prices = ref<number[]>([])
 const priceFilterValue = ref<number[]>([0, 1])
 const appliedFilters = ref<number>(0)
 
+interface productFilter {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [name: string]: any
+}
+
 onMounted(async () => {
   await store.getProducts()
   await store.getProductCategories()
@@ -40,11 +45,9 @@ const changeRatingFilter = async (rating: number) => {
 }
 
 const applyFilters = async () => {
-  interface filterType {
-    [name: string]: never
-  }
-  const filters: filterType = {}
-  Object.entries(store.filters).forEach((f: [string, never]) => {
+  const filters: productFilter = {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Object.entries(store.filters).forEach((f: [string, any]) => {
     const [name, value] = f
     filters[name] = value
   })
@@ -63,7 +66,6 @@ const applyFilters = async () => {
   if (filters.price) {
     const prices: number[] = filters.price
     const [min, max] = prices
-    console.log(store.products.filter((e) => e))
 
     store.products = store.products.filter(
       (e: { price: number }) => e.price >= min && e.price <= max,
@@ -94,8 +96,8 @@ const clearFilters = async () => {
 </script>
 
 <template>
-  <div class="wrapper" :key="appliedFilters">
-    <el-container direction="vertical">
+  <div class="m-8" :key="appliedFilters">
+    <el-container direction="vertical" class="my-8">
       <p>Categories</p>
       <el-select v-model="activeCategory" size="large" clearable @change="changeCategoryFilter">
         <el-option
@@ -107,10 +109,10 @@ const clearFilters = async () => {
       </el-select>
     </el-container>
 
-    <el-container direction="vertical">
+    <el-container direction="vertical" class="my-8 mr-5">
       <p>Price</p>
       <el-slider
-        class="priceFilterSlider"
+        class="mx-2"
         v-model="priceFilterValue"
         range
         :min="isFinite(Math.min(...prices)) ? Math.min(...prices) : 0"
@@ -119,7 +121,7 @@ const clearFilters = async () => {
       />
     </el-container>
 
-    <el-container direction="vertical">
+    <el-container direction="vertical" class="my-8">
       <p>Rating</p>
       <el-rate
         v-model="rating"
@@ -137,13 +139,3 @@ const clearFilters = async () => {
     </el-container>
   </div>
 </template>
-
-<style>
-.wrapper .el-container {
-  margin: 20px 30px;
-}
-.priceFilterSlider {
-  margin: 0 10px;
-  width: calc(100% - 20px) !important;
-}
-</style>
