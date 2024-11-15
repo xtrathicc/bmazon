@@ -66,7 +66,9 @@ const getRegex = (str: string) => {
         class="my-1"
         @change="updateCart()"
       />
-      <el-button @click="removeCartItem(productData.id)" class="ml-3"><el-icon><Delete /></el-icon></el-button>
+      <el-button @click="removeCartItem(productData.id)" class="ml-3"
+        ><el-icon><Delete /></el-icon
+      ></el-button>
     </el-col>
   </el-row>
 </template>
