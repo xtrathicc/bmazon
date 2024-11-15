@@ -38,7 +38,7 @@ const getRegex = (str: string) => {
 </script>
 
 <template>
-  <el-row :gutter="30" align="center">
+  <el-row :gutter="30">
     <el-col :sm="4" :md="6" :lg="6" :xl="8" class="text-bmazon-secondary mb-1">
       <el-image :src="productData.thumbnail" class="w-full bg-[#39424a]">
         <template #error>

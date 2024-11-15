@@ -36,7 +36,7 @@ const rating = ref<number>(product.value.rating)
   >
   <el-row :gutter="30">
     <el-col :sm="24" :md="16" :lg="12" :xl="12">
-      <el-carousel autoplay="false" height="400px">
+      <el-carousel :autoplay="false" height="400px">
         <el-carousel-item v-for="image in product.images" :key="image" class="bg-[#39424a]">
           <el-image class="w-full h-full [&>img]:object-contain" :src="image"> </el-image>
         </el-carousel-item> </el-carousel
