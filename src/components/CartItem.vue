@@ -28,6 +28,10 @@ const updateCart = () => {
   })
 }
 
+const removeCartItem = (id: number) => {
+  store.removeCartItem(id)
+}
+
 const getRegex = (str: string) => {
   return new RegExp('^' + str)
 }
@@ -45,7 +49,7 @@ const getRegex = (str: string) => {
       </el-image>
     </el-col>
     <el-col :sm="20" :md="18" :lg="18" :xl="16" class="text-bmazon-secondary mb-1">
-      <p class="my-1">
+      <p class="my-1 text-lg">
         <b class="brand">{{ productData.brand }}</b>
         {{ productData.title.replace(getRegex(productData.brand), '').trim() }}
       </p>
@@ -56,7 +60,13 @@ const getRegex = (str: string) => {
           >single price {{ productData.price }}</span
         >
       </p>
-      <el-input-number v-model="num" @change="updateCart()" class="my-1" />
+      <el-input-number
+        v-model="num"
+        :min="productData.minimumOrderQuantity || 1"
+        class="my-1"
+        @change="updateCart()"
+      />
+      <el-button @click="removeCartItem(productData.id)" class="ml-3"><el-icon><Delete /></el-icon></el-button>
     </el-col>
   </el-row>
 </template>

@@ -100,6 +100,12 @@ export const useProductsStore = defineStore('products', {
       this.cart[index] = { id: productId, amount }
     },
 
+    removeCartItem(productId: number) {
+      const index = this.cart.findIndex((e) => e.id === productId)
+      // delete this.cart[index]
+      this.cart.splice(index, 1)
+    },
+
     clearCart() {
       this.cart = []
     },

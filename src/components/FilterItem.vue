@@ -98,7 +98,7 @@ const clearFilters = async () => {
 <template>
   <div class="m-8" :key="appliedFilters">
     <el-container direction="vertical" class="my-8">
-      <p>Categories</p>
+      <p class="mb-2">Categories</p>
       <el-select v-model="activeCategory" size="large" clearable @change="changeCategoryFilter">
         <el-option
           v-for="category in store.categories"
