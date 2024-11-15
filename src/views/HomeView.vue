@@ -7,7 +7,7 @@ const store = useProductsStore()
 
 onMounted(async () => {
   await store.getProducts('?limit=12&sortBy=rating&order=desc')
-  await store.getVendors()
+  await store.getVendors()  
 })
 </script>
 

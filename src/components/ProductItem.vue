@@ -46,7 +46,7 @@ const getRegex = (str: string) => {
       {{ props.productData.title.replace(getRegex(props.productData.brand), '').trim() }}
     </p>
     <el-rate v-model="rating" disabled show-score text-color="#ff9900" score-template="{value}" />
-    <p class="text-bmazon-secondary -m-1 flex items-center" v-if="props.vendorData">
+    <p v-if="props.vendorData?.length > 0" class="text-bmazon-secondary -m-1 flex items-center">
       <el-icon><UserFilled /></el-icon>&nbsp;{{ props.vendorData?.[0].firstName }}
       {{ props.vendorData?.[0].lastName }}
     </p>
