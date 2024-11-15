@@ -25,8 +25,8 @@ const changePage = (p: number) => {
         :xs="12"
         :sm="12"
         :md="8"
-        :lg="8"
-        :xl="8"
+        :lg="6"
+        :xl="6"
         :key="product.id"
         v-for="product in store.products.slice((page - 1) * limit, (page - 1) * limit + limit)"
       >
@@ -35,7 +35,7 @@ const changePage = (p: number) => {
     </el-row>
   </el-container>
 
-  <el-container class="mt-2 mb-4 flex justify-center">
+  <el-container class="mt-2 mb-4 flex justify-center wrapper">
     <el-pagination
       background
       layout="prev, pager, next"
